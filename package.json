@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@prisma/client": "^6.17.1",
+    "@prisma/extension-accelerate": "^2.0.2",
+    "axios": "^1.12.2",
+    "prisma": "^6.17.1",
+    "react-router-dom": "^6.30.1"
+  }
+}

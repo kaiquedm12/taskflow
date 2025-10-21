@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { withAccelerate } from '@prisma/extension-accelerate';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient().$extends(withAccelerate());
 
-export const getTasks = async (req: Request, res: Response) => {
+interface AuthRequest extends Request {
+  userId: number;
+}
+
+export const getTasks = async (req: AuthRequest, res: Response) => {
   const tasks = await prisma.task.findMany({ where: { userId: req.userId } });
   res.json(tasks);
 };
@@ -16,7 +21,7 @@ export const createTask = async (req: Request, res: Response) => {
   res.json(task);
 };
 
-export const updateTask = async (req: Request, res: Response) => {
+export const updateTask = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
   const { title, completed } = req.body;
 
@@ -29,7 +34,7 @@ export const updateTask = async (req: Request, res: Response) => {
   res.json({ message: "Tarefa atualizada" });
 };
 
-export const deleteTask = async (req: Request, res: Response) => {
+export const deleteTask = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
 
   const deleted = await prisma.task.deleteMany({

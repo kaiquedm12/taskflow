@@ -2,8 +2,10 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { withAccelerate } from '@prisma/extension-accelerate';
 
-const prisma = new PrismaClient();
+
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 export const register = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
