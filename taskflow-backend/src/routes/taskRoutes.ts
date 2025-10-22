@@ -4,10 +4,9 @@ import { getTasks, createTask, updateTask, deleteTask } from "../controllers/tas
 
 const router = Router();
 
-router.use(authMiddleware);
-router.get("/", getTasks);
-router.post("/", createTask);
-router.put("/:id", updateTask);
-router.delete("/:id", deleteTask);
+router.post("/", authMiddleware, createTask);
+router.get("/", authMiddleware, getTasks);
+router.put("/:id", authMiddleware, updateTask);
+router.delete("/:id", authMiddleware, deleteTask);
 
 export default router;
